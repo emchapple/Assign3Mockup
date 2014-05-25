@@ -37,8 +37,8 @@
             this.textBoxArticleText = new System.Windows.Forms.TextBox();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.onlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getGroupsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerHorizontal)).BeginInit();
             this.splitContainerHorizontal.Panel1.SuspendLayout();
@@ -54,6 +54,7 @@
             // labelServerPrompt
             // 
             this.labelServerPrompt.AutoSize = true;
+            this.labelServerPrompt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelServerPrompt.Location = new System.Drawing.Point(33, 24);
             this.labelServerPrompt.Name = "labelServerPrompt";
             this.labelServerPrompt.Size = new System.Drawing.Size(41, 13);
@@ -111,22 +112,28 @@
             // listBoxNewsgroups
             // 
             this.listBoxNewsgroups.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxNewsgroups.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBoxNewsgroups.FormattingEnabled = true;
             this.listBoxNewsgroups.IntegralHeight = false;
             this.listBoxNewsgroups.Location = new System.Drawing.Point(0, 0);
             this.listBoxNewsgroups.Name = "listBoxNewsgroups";
             this.listBoxNewsgroups.Size = new System.Drawing.Size(308, 102);
             this.listBoxNewsgroups.TabIndex = 0;
+            this.listBoxNewsgroups.SelectedIndexChanged += new System.EventHandler(this.listBoxNewsgroups_SelectedIndexChanged);
+            this.listBoxNewsgroups.DoubleClick += new System.EventHandler(this.listBoxNewsgroups_DoubleClick);
             // 
             // listBoxArticleHeaders
             // 
             this.listBoxArticleHeaders.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listBoxArticleHeaders.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBoxArticleHeaders.FormattingEnabled = true;
             this.listBoxArticleHeaders.IntegralHeight = false;
             this.listBoxArticleHeaders.Location = new System.Drawing.Point(0, 0);
             this.listBoxArticleHeaders.Name = "listBoxArticleHeaders";
             this.listBoxArticleHeaders.Size = new System.Drawing.Size(308, 219);
             this.listBoxArticleHeaders.TabIndex = 0;
+            this.listBoxArticleHeaders.SelectedIndexChanged += new System.EventHandler(this.listBoxArticleHeaders_SelectedIndexChanged);
+            this.listBoxArticleHeaders.DoubleClick += new System.EventHandler(this.listBoxArticleHeaders_DoubleClick);
             // 
             // textBoxArticleText
             // 
@@ -143,14 +150,12 @@
             // 
             this.menuStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.fileToolStripMenuItem1});
+            this.onlineToolStripMenuItem});
             this.menuStripMain.Location = new System.Drawing.Point(0, 0);
             this.menuStripMain.Name = "menuStripMain";
             this.menuStripMain.Size = new System.Drawing.Size(990, 24);
             this.menuStripMain.TabIndex = 3;
             this.menuStripMain.Text = "menuStripMain";
-            this.menuStripMain.UseWaitCursor = true;
-            this.menuStripMain.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // fileToolStripMenuItem
             // 
@@ -160,25 +165,27 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // fileToolStripMenuItem1
-            // 
-            this.fileToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.getGroupsListToolStripMenuItem});
-            this.fileToolStripMenuItem1.Name = "fileToolStripMenuItem1";
-            this.fileToolStripMenuItem1.Size = new System.Drawing.Size(54, 20);
-            this.fileToolStripMenuItem1.Text = "Online";
-            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(92, 22);
             this.exitToolStripMenuItem.Text = "Exit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            // 
+            // onlineToolStripMenuItem
+            // 
+            this.onlineToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.getGroupsListToolStripMenuItem});
+            this.onlineToolStripMenuItem.Name = "onlineToolStripMenuItem";
+            this.onlineToolStripMenuItem.Size = new System.Drawing.Size(54, 20);
+            this.onlineToolStripMenuItem.Text = "Online";
             // 
             // getGroupsListToolStripMenuItem
             // 
             this.getGroupsListToolStripMenuItem.Name = "getGroupsListToolStripMenuItem";
             this.getGroupsListToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.getGroupsListToolStripMenuItem.Text = "Get Groups List";
+            this.getGroupsListToolStripMenuItem.Click += new System.EventHandler(this.getGroupsListToolStripMenuItem_Click);
             // 
             // NewsReaderForm
             // 
@@ -189,6 +196,7 @@
             this.Controls.Add(this.textBoxServerURL);
             this.Controls.Add(this.labelServerPrompt);
             this.Controls.Add(this.menuStripMain);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Name = "NewsReaderForm";
             this.Text = "News Reader";
             this.Load += new System.EventHandler(this.NewsReaderForm_Load);
@@ -220,7 +228,7 @@
         private System.Windows.Forms.MenuStrip menuStripMain;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem onlineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem getGroupsListToolStripMenuItem;
     }
 }

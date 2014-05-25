@@ -13,6 +13,14 @@ namespace Assign3Mockup
 {
     public partial class NewsReaderForm : Form
     {
+        private string server;
+        private NewsgroupCollection newsGroups;
+        //private Newsgroup selectedGroup;
+        private int selectedGroupIndex;
+       // private ArticleCollection articles;
+        //private Article selectedArticle;
+        
+
         public NewsReaderForm()
         {
             InitializeComponent();
@@ -20,15 +28,124 @@ namespace Assign3Mockup
 
         private void NewsReaderForm_Load(object sender, EventArgs e)
         {
-            NewsConnection connection = new NewsConnection();
-            connection.Connect("forums.embarcadero.com");
+            server = "forums.embarcadero.com";
+            textBoxServerURL.Text = server;
+            newsGroups = new NewsgroupCollection();
+        //    articles = new ArticleCollection();
 
-            connection.Disconnect();
         }
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        private void populateNewsGroupsListBox()
+        {
+            listBoxNewsgroups.Items.Clear();
+
+            foreach (Newsgroup group in newsGroups)
+            {
+                listBoxNewsgroups.Items.Add(group);
+            }
+        
+        }
+
+
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void getGroupsListToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                server = textBoxServerURL.Text;
+                this.Cursor = Cursors.WaitCursor; 
+                newsGroups = Utils.GetNewsGroups(server);
+                populateNewsGroupsListBox();
+                listBoxNewsgroups.DisplayMember = "Name";
+                listBoxNewsgroups.SelectedIndex = 0;
+                this.Cursor = Cursors.Default;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No such host");
+            }
+        }
+
+        private void listBoxNewsgroups_DoubleClick(object sender, EventArgs e)
+        {
+            Newsgroup selectedGroup = listBoxNewsgroups.SelectedItem as Newsgroup;
+            selectedGroupIndex = newsGroups.IndexOf(selectedGroup);
+            Utils.UpdateGroupArticles(server, selectedGroup);
+            updateArticleListBox(selectedGroup);
+        }
+
+
+        private void updateArticleListBox(Newsgroup selectedGroup)
+        {
+            clearHeadersList();
+            //Utils.UpdateGroupArticles(server, selectedGroup);
+            listBoxArticleHeaders.DataSource = selectedGroup.Articles;
+            listBoxArticleHeaders.DisplayMember = "Subject";
+        }
+
+   
+        private void clearHeadersList()
+        {
+            listBoxArticleHeaders.DataSource = null;
+        }
+
+
+        private void listBoxNewsgroups_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Newsgroup selectedGroup = listBoxNewsgroups.SelectedItem as Newsgroup;
+            updateArticleListBox(selectedGroup);
+        }
+
+
+
+
+        private void clearArticleDisplay()
+        {
+            textBoxArticleText.Text = string.Empty;
+        }
+
+        private void changeArticleDisplay(Article article)
         {
 
+            if (article == null || article.Body == null)
+            {
+                clearArticleDisplay();
+            }
+            else
+            {
+                textBoxArticleText.Text = article.Body;
+            }
+
         }
+
+        private void listBoxArticleHeaders_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Article selectedArticle = listBoxArticleHeaders.SelectedItem as Article;
+            changeArticleDisplay(selectedArticle);
+        }
+
+        private void listBoxArticleHeaders_DoubleClick(object sender, EventArgs e)
+        {
+            Newsgroup selectedGroup = listBoxNewsgroups.SelectedItem as Newsgroup;
+            Article selectedArticle = listBoxArticleHeaders.SelectedItem as Article;
+            // selectedGroupIndex = newsGroups.IndexOf(selectedGroup);
+            if (selectedArticle.Body == null)
+            {
+                Utils.UpdateArticleText(server, selectedGroup, selectedArticle);
+                changeArticleDisplay(selectedArticle);
+            }
+
+        }
+
+       
+
     }
-}
+
+
+    }
+
