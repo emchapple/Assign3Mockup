@@ -22,13 +22,14 @@ namespace Assign3Mockup
 
         //good test server: forums.embarcadero.com.
 
-        public static NewsgroupCollection GetNewsGroups(string server, List<string> includeList, List<string> excludeList)
+        public static NewsgroupCollection GetNewsGroups(string server, List<string> includeList, List<string> excludeList) 
         {
             NewsConnection connection = new NewsConnection();
-
-            connection.Connect(server);
-            NewsgroupCollection groups = connection.GetNewsgroups(includeList, excludeList);
-            connection.Disconnect();
+           
+                connection.Connect(server);
+                NewsgroupCollection groups = connection.GetNewsgroups(includeList, excludeList);
+                connection.Disconnect();
+            
 
             return groups;
         }
@@ -46,12 +47,6 @@ namespace Assign3Mockup
         }
 
 
-
-
-
-
-
-
         public static void UpdateArticleText(string server, Newsgroup newsgroup, Article article)
         {
             NewsConnection connection = new NewsConnection();
@@ -60,7 +55,18 @@ namespace Assign3Mockup
             article.Body = articleText;
         }
 
-
+        public static string ListToString(List<string> words)
+        {
+            string result = string.Empty;
+            if (words != null)
+            {
+                foreach (string word in words)
+                {
+                    result += word + " ";
+                }
+            }
+            return result;
+        }
 
 
 }

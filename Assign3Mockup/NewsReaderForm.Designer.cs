@@ -42,7 +42,7 @@
             this.getGroupsListToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBoxFilterGroups = new System.Windows.Forms.GroupBox();
             this.comboBoxSearchTerms = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelSearchPrompt = new System.Windows.Forms.Label();
             this.radioButtonExclude = new System.Windows.Forms.RadioButton();
             this.radioButtonInclude = new System.Windows.Forms.RadioButton();
             this.checkBoxFilterGroups = new System.Windows.Forms.CheckBox();
@@ -203,7 +203,7 @@
             // groupBoxFilterGroups
             // 
             this.groupBoxFilterGroups.Controls.Add(this.comboBoxSearchTerms);
-            this.groupBoxFilterGroups.Controls.Add(this.label1);
+            this.groupBoxFilterGroups.Controls.Add(this.labelSearchPrompt);
             this.groupBoxFilterGroups.Controls.Add(this.radioButtonExclude);
             this.groupBoxFilterGroups.Controls.Add(this.radioButtonInclude);
             this.groupBoxFilterGroups.Controls.Add(this.checkBoxFilterGroups);
@@ -221,14 +221,14 @@
             this.comboBoxSearchTerms.Size = new System.Drawing.Size(363, 21);
             this.comboBoxSearchTerms.TabIndex = 4;
             // 
-            // label1
+            // labelSearchPrompt
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(25, 62);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(202, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Enter search words separated by spaces:";
+            this.labelSearchPrompt.AutoSize = true;
+            this.labelSearchPrompt.Location = new System.Drawing.Point(25, 62);
+            this.labelSearchPrompt.Name = "labelSearchPrompt";
+            this.labelSearchPrompt.Size = new System.Drawing.Size(202, 13);
+            this.labelSearchPrompt.TabIndex = 3;
+            this.labelSearchPrompt.Text = "Enter search words separated by spaces:";
             // 
             // radioButtonExclude
             // 
@@ -261,6 +261,7 @@
             this.checkBoxFilterGroups.TabIndex = 0;
             this.checkBoxFilterGroups.Text = "Filter groups";
             this.checkBoxFilterGroups.UseVisualStyleBackColor = true;
+            this.checkBoxFilterGroups.CheckedChanged += new System.EventHandler(this.checkBoxFilterGroups_CheckedChanged);
             // 
             // groupBoxFilterArticles
             // 
@@ -364,7 +365,7 @@
         private System.Windows.Forms.RadioButton radioButtonInclude;
         private System.Windows.Forms.CheckBox checkBoxFilterGroups;
         private System.Windows.Forms.ComboBox comboBoxSearchTerms;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelSearchPrompt;
         private System.Windows.Forms.Label labelArticles;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label labelNumArticles;

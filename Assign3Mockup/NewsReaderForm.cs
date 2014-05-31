@@ -29,9 +29,12 @@ namespace Assign3Mockup
             textBoxServerURL.Text = server;
             textBoxServerURL.Select();
             newsGroups = new NewsgroupCollection();
+            listBoxNewsgroups.DisplayMember = "Name";
+            listBoxArticleHeaders.DisplayMember = "Subject";
+            checkBoxFilterGroups.Checked = false;
+            deactivateFiltering();
             radioButtonInclude.Checked = true;
-       
-
+            checkBoxFilterArticles.Checked = true;
         }
 
         private void populateNewsGroupsListBox()
@@ -63,15 +66,33 @@ namespace Assign3Mockup
                 this.Cursor = Cursors.WaitCursor;
 
                 doFilteredSearch();
-                populateNewsGroupsListBox();
-                listBoxNewsgroups.DisplayMember = "Name";
-                listBoxNewsgroups.SelectedIndex = 0;
+                if (searchFoundResults())
+                {
+                   
+                   populateNewsGroupsListBox();
+                   
+                   listBoxNewsgroups.SelectedIndex = 0;
+                   
+                }
+            }
+            catch (NntpException ex1)
+            {
+                MessageBox.Show("nntpException "+ ex1.Message);
+            }
+            catch (Exception ex2)
+            {
+                MessageBox.Show("Other exception " + ex2.Message);
+            }
+            finally
+            {
                 this.Cursor = Cursors.Default;
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("No such host");
-            }
+        }
+
+
+        private bool searchFoundResults()
+        {
+            return newsGroups.Count > 0;
         }
 
         private void doFilteredSearch()
@@ -87,12 +108,36 @@ namespace Assign3Mockup
             }
 
             newsGroups = Utils.GetNewsGroups(server, includeTerms, excludeTerms);
+
+
+            ///this is corny, need to simplify
+            if (includeTerms != null)
+            {
+                addSearchToComboBox(includeTerms);
+            }
+            else if (excludeTerms != null)
+            {
+                addSearchToComboBox(excludeTerms);
+            }   
         }
 
         private List<string> getSearchTerms()
         {
+ 
+            string searchInput = string.Empty;
+            if (comboBoxSearchTerms.SelectedIndex == -1)
+            {
+                searchInput = comboBoxSearchTerms.Text; ;
+            }
+            else
+            {
+                searchInput = comboBoxSearchTerms.SelectedItem.ToString();
+            }
+
+
+            string[] searchWords = searchInput.Trim().Split(' ');
+
             List<string> includeTerms = new List<string>();
-            string[] searchWords = comboBoxSearchTerms.Text.Split();
             foreach(string word in searchWords)
             {
                 includeTerms.Add(word);
@@ -109,7 +154,7 @@ namespace Assign3Mockup
             else return null;
         }
 
-           private List<string> getExcludeTerms()
+        private List<string> getExcludeTerms()
         {
             if(radioButtonExclude.Checked)
             {
@@ -117,6 +162,35 @@ namespace Assign3Mockup
             }
             else return null;
         }
+
+        private void deactivateFiltering()
+        {
+            radioButtonInclude.Enabled = false;
+            radioButtonExclude.Enabled = false;
+            labelSearchPrompt.Enabled = false;
+            comboBoxSearchTerms.Enabled = false;
+        }
+
+        private void activateFiltering()
+        {
+            radioButtonInclude.Enabled = true;
+            radioButtonExclude.Enabled = true;
+            labelSearchPrompt.Enabled = true;
+            comboBoxSearchTerms.Enabled = true;
+        }
+
+        private void deactivateArticleLimit()
+        {
+            labelArticles.Enabled = false;
+            labelNumArticles.Enabled = false;
+        }
+
+        private void addSearchToComboBox(List<string> searchTerms)
+        {
+            string searchDisplay = Utils.ListToString(searchTerms);
+            comboBoxSearchTerms.Items.Add(searchDisplay);
+        }
+
 
         private void listBoxNewsgroups_DoubleClick(object sender, EventArgs e)
         {
@@ -132,7 +206,7 @@ namespace Assign3Mockup
             clearHeadersList();
             //Utils.UpdateGroupArticles(server, selectedGroup);
             listBoxArticleHeaders.DataSource = selectedGroup.Articles;
-            listBoxArticleHeaders.DisplayMember = "Subject";
+           
         }
 
    
@@ -187,6 +261,18 @@ namespace Assign3Mockup
                 changeArticleDisplay(selectedArticle);
             }
 
+        }
+
+        private void checkBoxFilterGroups_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxFilterGroups.Checked)
+            {
+                activateFiltering();
+            }
+            else
+            {
+                deactivateFiltering();
+            }
         }
 
        
