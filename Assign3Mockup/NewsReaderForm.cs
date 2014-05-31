@@ -43,20 +43,12 @@ namespace Assign3Mockup
             textBoxNumArticles.Text = "100";
         }
 
+    
+
         private void populateNewsGroupsListBox()
         {
-            listBoxNewsgroups.Items.Clear();
-
-            if (newsGroups != null)
-            {
-                foreach (Newsgroup group in newsGroups)
-                {
-                    listBoxNewsgroups.Items.Add(group);
-                }
-
-            }
+            listBoxNewsgroups.DataSource = newsGroups;
         }
-
 
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -71,23 +63,14 @@ namespace Assign3Mockup
                 server = textBoxServerURL.Text;
                 this.Cursor = Cursors.WaitCursor;
 
-                doFilteredSearch();
-                if (searchFoundResults())
-                {
-                   
-                   populateNewsGroupsListBox();
-                   
-                   listBoxNewsgroups.SelectedIndex = 0;
-                   
-                }
+                doFilteredSearch2();
+                updateNewsGroupListBoxDisplay();
+
             }
-            catch (NntpException ex1)
+
+            catch (Exception ex)
             {
-                MessageBox.Show("nntpException "+ ex1.Message);
-            }
-            catch (Exception ex2)
-            {
-                MessageBox.Show("Other exception " + ex2.Message);
+                MessageBox.Show("No such host.");
             }
             finally
             {
@@ -95,6 +78,18 @@ namespace Assign3Mockup
             }
         }
 
+        private void updateNewsGroupListBoxDisplay()
+        {
+            if (searchFoundResults())
+            {
+                populateNewsGroupsListBox();
+                listBoxNewsgroups.SelectedIndex = 0;
+            }
+            else
+            {
+                listBoxNewsgroups.DataSource = null;
+            }
+        }
 
         private bool searchFoundResults()
         {
@@ -125,6 +120,36 @@ namespace Assign3Mockup
             {
                 addSearchToComboBox(excludeTerms);
             }   
+        }
+
+        private void doFilteredSearch2()
+        {
+            List<string> searchTerms = getSearchTerms();
+
+            List<string> includeTerms = null;
+            List<string> excludeTerms = null;
+
+            if (checkBoxFilterGroups.Checked)
+            {
+                if (radioButtonInclude.Checked && radioButtonExclude.Checked == false)
+                {
+                    includeTerms = searchTerms;
+                }
+                else if (radioButtonExclude.Checked && radioButtonInclude.Checked == false)
+                {
+                    excludeTerms = searchTerms;
+                }
+                else
+                {
+                    MessageBox.Show("Unable to complete search. Please try again.");
+                }
+                addSearchToComboBox(searchTerms);
+            }
+
+            newsGroups = Utils.GetNewsGroups(server, includeTerms, excludeTerms);
+
+           
+        
         }
 
         private List<string> getSearchTerms()
@@ -250,9 +275,10 @@ namespace Assign3Mockup
         private void updateArticleListBox(Newsgroup selectedGroup)
         {
             clearHeadersList();
-            //Utils.UpdateGroupArticles(server, selectedGroup);
-            listBoxArticleHeaders.DataSource = selectedGroup.Articles;
-           
+            if (selectedGroup != null)
+            {
+                listBoxArticleHeaders.DataSource = selectedGroup.Articles;
+            }
         }
 
    

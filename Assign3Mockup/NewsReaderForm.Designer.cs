@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.SplitContainer splitContainerHorizontal;
             this.labelServerPrompt = new System.Windows.Forms.Label();
             this.textBoxServerURL = new System.Windows.Forms.TextBox();
-            this.splitContainerHorizontal = new System.Windows.Forms.SplitContainer();
             this.splitContainerVertical = new System.Windows.Forms.SplitContainer();
             this.listBoxNewsgroups = new System.Windows.Forms.ListBox();
             this.listBoxArticleHeaders = new System.Windows.Forms.ListBox();
@@ -51,10 +51,11 @@
             this.textBoxNumArticles = new System.Windows.Forms.TextBox();
             this.labelNumArticles = new System.Windows.Forms.Label();
             this.checkBoxFilterArticles = new System.Windows.Forms.CheckBox();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerHorizontal)).BeginInit();
-            this.splitContainerHorizontal.Panel1.SuspendLayout();
-            this.splitContainerHorizontal.Panel2.SuspendLayout();
-            this.splitContainerHorizontal.SuspendLayout();
+            splitContainerHorizontal = new System.Windows.Forms.SplitContainer();
+            ((System.ComponentModel.ISupportInitialize)(splitContainerHorizontal)).BeginInit();
+            splitContainerHorizontal.Panel1.SuspendLayout();
+            splitContainerHorizontal.Panel2.SuspendLayout();
+            splitContainerHorizontal.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerVertical)).BeginInit();
             this.splitContainerVertical.Panel1.SuspendLayout();
             this.splitContainerVertical.Panel2.SuspendLayout();
@@ -85,28 +86,27 @@
             // 
             // splitContainerHorizontal
             // 
-            this.splitContainerHorizontal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            splitContainerHorizontal.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainerHorizontal.Location = new System.Drawing.Point(36, 157);
-            this.splitContainerHorizontal.Name = "splitContainerHorizontal";
+            splitContainerHorizontal.Location = new System.Drawing.Point(36, 157);
+            splitContainerHorizontal.Name = "splitContainerHorizontal";
             // 
             // splitContainerHorizontal.Panel1
             // 
-            this.splitContainerHorizontal.Panel1.Controls.Add(this.splitContainerVertical);
+            splitContainerHorizontal.Panel1.Controls.Add(this.splitContainerVertical);
             // 
             // splitContainerHorizontal.Panel2
             // 
-            this.splitContainerHorizontal.Panel2.Controls.Add(this.textBoxArticleText);
-            this.splitContainerHorizontal.Size = new System.Drawing.Size(657, 263);
-            this.splitContainerHorizontal.SplitterDistance = 250;
-            this.splitContainerHorizontal.TabIndex = 2;
+            splitContainerHorizontal.Panel2.Controls.Add(this.textBoxArticleText);
+            splitContainerHorizontal.Size = new System.Drawing.Size(657, 263);
+            splitContainerHorizontal.SplitterDistance = 250;
+            splitContainerHorizontal.TabIndex = 2;
             // 
             // splitContainerVertical
             // 
             this.splitContainerVertical.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerVertical.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainerVertical.IsSplitterFixed = true;
             this.splitContainerVertical.Location = new System.Drawing.Point(0, 0);
             this.splitContainerVertical.Name = "splitContainerVertical";
             this.splitContainerVertical.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -318,7 +318,7 @@
             this.ClientSize = new System.Drawing.Size(722, 432);
             this.Controls.Add(this.groupBoxFilterArticles);
             this.Controls.Add(this.groupBoxFilterGroups);
-            this.Controls.Add(this.splitContainerHorizontal);
+            this.Controls.Add(splitContainerHorizontal);
             this.Controls.Add(this.textBoxServerURL);
             this.Controls.Add(this.labelServerPrompt);
             this.Controls.Add(this.menuStripMain);
@@ -326,11 +326,11 @@
             this.Name = "NewsReaderForm";
             this.Text = "News Reader";
             this.Load += new System.EventHandler(this.NewsReaderForm_Load);
-            this.splitContainerHorizontal.Panel1.ResumeLayout(false);
-            this.splitContainerHorizontal.Panel2.ResumeLayout(false);
-            this.splitContainerHorizontal.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainerHorizontal)).EndInit();
-            this.splitContainerHorizontal.ResumeLayout(false);
+            splitContainerHorizontal.Panel1.ResumeLayout(false);
+            splitContainerHorizontal.Panel2.ResumeLayout(false);
+            splitContainerHorizontal.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(splitContainerHorizontal)).EndInit();
+            splitContainerHorizontal.ResumeLayout(false);
             this.splitContainerVertical.Panel1.ResumeLayout(false);
             this.splitContainerVertical.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerVertical)).EndInit();
@@ -350,7 +350,6 @@
 
         private System.Windows.Forms.Label labelServerPrompt;
         private System.Windows.Forms.TextBox textBoxServerURL;
-        private System.Windows.Forms.SplitContainer splitContainerHorizontal;
         private System.Windows.Forms.SplitContainer splitContainerVertical;
         private System.Windows.Forms.ListBox listBoxNewsgroups;
         private System.Windows.Forms.ListBox listBoxArticleHeaders;
