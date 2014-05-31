@@ -34,13 +34,27 @@ namespace Assign3Mockup
             return groups;
         }
 
+        public static void UpdateGroupArticles(string server, Newsgroup newsGroup, int maxHeaders)
+        {
+            if (newsGroup != null && newsGroup.Articles == null)
+            {
+                NewsConnection connection = new NewsConnection();
+                connection.Connect(server);
+                ArticleCollection articles = connection.GetArticleHeaders(newsGroup, maxHeaders);
+                connection.Disconnect();
+                newsGroup.Articles = articles;
+            }
+        }
+
+
+        //ugly overload, fragile, too much duplicated code :(
         public static void UpdateGroupArticles(string server, Newsgroup newsGroup)
         {
             if (newsGroup.Articles == null)
             {
                 NewsConnection connection = new NewsConnection();
                 connection.Connect(server);
-                ArticleCollection articles = connection.GetArticleHeaders(newsGroup, 100);
+                ArticleCollection articles = connection.GetArticleHeaders(newsGroup );
                 connection.Disconnect();
                 newsGroup.Articles = articles;
             }

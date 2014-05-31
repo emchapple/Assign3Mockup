@@ -25,16 +25,22 @@ namespace Assign3Mockup
 
         private void NewsReaderForm_Load(object sender, EventArgs e)
         {
+            //server
             server = "forums.embarcadero.com";
             textBoxServerURL.Text = server;
             textBoxServerURL.Select();
+
+            //listboxes
             newsGroups = new NewsgroupCollection();
             listBoxNewsgroups.DisplayMember = "Name";
             listBoxArticleHeaders.DisplayMember = "Subject";
+            
+            //filtering
             checkBoxFilterGroups.Checked = false;
             deactivateFiltering();
             radioButtonInclude.Checked = true;
             checkBoxFilterArticles.Checked = true;
+            textBoxNumArticles.Text = "100";
         }
 
         private void populateNewsGroupsListBox()
@@ -183,23 +189,63 @@ namespace Assign3Mockup
         {
             labelArticles.Enabled = false;
             labelNumArticles.Enabled = false;
+            textBoxNumArticles.Enabled = false;
+        }
+
+        private void activateArticleLimit()
+        {
+            labelArticles.Enabled = true;
+            labelNumArticles.Enabled = true;
+            textBoxNumArticles.Enabled = true;
         }
 
         private void addSearchToComboBox(List<string> searchTerms)
         {
             string searchDisplay = Utils.ListToString(searchTerms);
-            comboBoxSearchTerms.Items.Add(searchDisplay);
+            if (comboBoxSearchTerms.Items.Contains(searchDisplay) == false)
+            {
+                comboBoxSearchTerms.Items.Add(searchDisplay);
+            }
         }
 
 
         private void listBoxNewsgroups_DoubleClick(object sender, EventArgs e)
         {
             Newsgroup selectedGroup = listBoxNewsgroups.SelectedItem as Newsgroup;
-            selectedGroupIndex = newsGroups.IndexOf(selectedGroup);
-            Utils.UpdateGroupArticles(server, selectedGroup);
-            updateArticleListBox(selectedGroup);
+            if (selectedGroup != null)
+            {
+                selectedGroupIndex = newsGroups.IndexOf(selectedGroup);
+
+
+                int maxHeaders = 0;
+                if (Int32.TryParse(textBoxNumArticles.Text, out maxHeaders))
+                {
+                    Utils.UpdateGroupArticles(server, selectedGroup, maxHeaders);
+                }
+                else
+                {
+                    Utils.UpdateGroupArticles(server, selectedGroup);
+                }
+                updateArticleListBox(selectedGroup);
+            }
         }
 
+
+        private int getMaxHeaders()
+        {
+            int maxHeaders = 0;
+            if (checkBoxFilterArticles.Checked)
+            {
+                bool success = Int32.TryParse(textBoxNumArticles.Text, out maxHeaders);
+                return maxHeaders;
+            }
+            else
+            {
+                maxHeaders = 200;
+            }
+            return maxHeaders;
+
+        }
 
         private void updateArticleListBox(Newsgroup selectedGroup)
         {
@@ -254,8 +300,7 @@ namespace Assign3Mockup
         {
             Newsgroup selectedGroup = listBoxNewsgroups.SelectedItem as Newsgroup;
             Article selectedArticle = listBoxArticleHeaders.SelectedItem as Article;
-            // selectedGroupIndex = newsGroups.IndexOf(selectedGroup);
-            if (selectedArticle.Body == null)
+            if (selectedArticle != null && selectedArticle.Body == null)
             {
                 Utils.UpdateArticleText(server, selectedGroup, selectedArticle);
                 changeArticleDisplay(selectedArticle);
@@ -275,10 +320,24 @@ namespace Assign3Mockup
             }
         }
 
+        private void checkBoxFilterArticles_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxFilterArticles.Checked)
+            {
+                activateArticleLimit();
+            }
+            else
+            {
+                deactivateArticleLimit();
+            }
+        }
+
+        }
+
        
 
     }
 
 
-    }
+    
 

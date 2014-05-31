@@ -48,7 +48,7 @@
             this.checkBoxFilterGroups = new System.Windows.Forms.CheckBox();
             this.groupBoxFilterArticles = new System.Windows.Forms.GroupBox();
             this.labelArticles = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBoxNumArticles = new System.Windows.Forms.TextBox();
             this.labelNumArticles = new System.Windows.Forms.Label();
             this.checkBoxFilterArticles = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerHorizontal)).BeginInit();
@@ -266,7 +266,7 @@
             // groupBoxFilterArticles
             // 
             this.groupBoxFilterArticles.Controls.Add(this.labelArticles);
-            this.groupBoxFilterArticles.Controls.Add(this.textBox1);
+            this.groupBoxFilterArticles.Controls.Add(this.textBoxNumArticles);
             this.groupBoxFilterArticles.Controls.Add(this.labelNumArticles);
             this.groupBoxFilterArticles.Controls.Add(this.checkBoxFilterArticles);
             this.groupBoxFilterArticles.Location = new System.Drawing.Point(473, 47);
@@ -284,12 +284,12 @@
             this.labelArticles.TabIndex = 3;
             this.labelArticles.Text = "articles";
             // 
-            // textBox1
+            // textBoxNumArticles
             // 
-            this.textBox1.Location = new System.Drawing.Point(118, 31);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(42, 20);
-            this.textBox1.TabIndex = 2;
+            this.textBoxNumArticles.Location = new System.Drawing.Point(118, 31);
+            this.textBoxNumArticles.Name = "textBoxNumArticles";
+            this.textBoxNumArticles.Size = new System.Drawing.Size(42, 20);
+            this.textBoxNumArticles.TabIndex = 2;
             // 
             // labelNumArticles
             // 
@@ -309,6 +309,7 @@
             this.checkBoxFilterArticles.TabIndex = 0;
             this.checkBoxFilterArticles.Text = "Filter Articles";
             this.checkBoxFilterArticles.UseVisualStyleBackColor = true;
+            this.checkBoxFilterArticles.CheckedChanged += new System.EventHandler(this.checkBoxFilterArticles_CheckedChanged);
             // 
             // NewsReaderForm
             // 
@@ -367,7 +368,7 @@
         private System.Windows.Forms.ComboBox comboBoxSearchTerms;
         private System.Windows.Forms.Label labelSearchPrompt;
         private System.Windows.Forms.Label labelArticles;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBoxNumArticles;
         private System.Windows.Forms.Label labelNumArticles;
         private System.Windows.Forms.CheckBox checkBoxFilterArticles;
     }
