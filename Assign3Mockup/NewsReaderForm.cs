@@ -30,6 +30,7 @@ namespace Assign3Mockup
         {
             server = "forums.embarcadero.com";
             textBoxServerURL.Text = server;
+            textBoxServerURL.Select();
             newsGroups = new NewsgroupCollection();
         //    articles = new ArticleCollection();
 
@@ -58,8 +59,11 @@ namespace Assign3Mockup
             try
             {
                 server = textBoxServerURL.Text;
-                this.Cursor = Cursors.WaitCursor; 
-                newsGroups = Utils.GetNewsGroups(server);
+                this.Cursor = Cursors.WaitCursor;
+                List<string> includeTerms = getIncludeTerms();
+               // List<string> excludeTerms = getExcludeTerms();
+                newsGroups = Utils.GetNewsGroups(server, includeTerms);
+
                 populateNewsGroupsListBox();
                 listBoxNewsgroups.DisplayMember = "Name";
                 listBoxNewsgroups.SelectedIndex = 0;
@@ -70,6 +74,19 @@ namespace Assign3Mockup
                 MessageBox.Show("No such host");
             }
         }
+
+        private List<string> getIncludeTerms()
+        {
+            List<string> includeTerms = new List<string>();
+            string[] searchWords = comboBoxSearchTerms.Text.Split();
+            foreach(string word in searchWords)
+            {
+                includeTerms.Add(word);
+            }
+            return includeTerms;
+        }
+
+
 
         private void listBoxNewsgroups_DoubleClick(object sender, EventArgs e)
         {

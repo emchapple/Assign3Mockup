@@ -22,12 +22,13 @@ namespace Assign3Mockup
 
         //good test server: forums.embarcadero.com.
 
-        public static NewsgroupCollection GetNewsGroups(string server)
+        public static NewsgroupCollection GetNewsGroups(string server, List<string> includeTerms)
         {
             NewsConnection connection = new NewsConnection();
 
             connection.Connect(server);
-            NewsgroupCollection groups = connection.GetNewsgroups();
+            NewsgroupCollection groups = connection.GetNewsgroups(includeTerms, null);
+        //    connection.get
             connection.Disconnect();
 
             return groups;
