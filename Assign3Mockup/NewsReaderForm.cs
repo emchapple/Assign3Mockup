@@ -15,11 +15,8 @@ namespace Assign3Mockup
     {
         private string server;
         private NewsgroupCollection newsGroups;
-        //private Newsgroup selectedGroup;
         private int selectedGroupIndex;
-       // private ArticleCollection articles;
-        //private Article selectedArticle;
-        
+     
 
         public NewsReaderForm()
         {
@@ -32,7 +29,8 @@ namespace Assign3Mockup
             textBoxServerURL.Text = server;
             textBoxServerURL.Select();
             newsGroups = new NewsgroupCollection();
-        //    articles = new ArticleCollection();
+            radioButtonInclude.Checked = true;
+       
 
         }
 
@@ -40,11 +38,14 @@ namespace Assign3Mockup
         {
             listBoxNewsgroups.Items.Clear();
 
-            foreach (Newsgroup group in newsGroups)
+            if (newsGroups != null)
             {
-                listBoxNewsgroups.Items.Add(group);
+                foreach (Newsgroup group in newsGroups)
+                {
+                    listBoxNewsgroups.Items.Add(group);
+                }
+
             }
-        
         }
 
 
@@ -60,10 +61,8 @@ namespace Assign3Mockup
             {
                 server = textBoxServerURL.Text;
                 this.Cursor = Cursors.WaitCursor;
-                List<string> includeTerms = getIncludeTerms();
-               // List<string> excludeTerms = getExcludeTerms();
-                newsGroups = Utils.GetNewsGroups(server, includeTerms);
 
+                doFilteredSearch();
                 populateNewsGroupsListBox();
                 listBoxNewsgroups.DisplayMember = "Name";
                 listBoxNewsgroups.SelectedIndex = 0;
@@ -75,7 +74,22 @@ namespace Assign3Mockup
             }
         }
 
-        private List<string> getIncludeTerms()
+        private void doFilteredSearch()
+        {
+
+            List<string> includeTerms = null;
+            List<string> excludeTerms = null;
+
+            if (checkBoxFilterGroups.Checked)
+            {
+                includeTerms = getIncludeTerms();
+                excludeTerms = getExcludeTerms();
+            }
+
+            newsGroups = Utils.GetNewsGroups(server, includeTerms, excludeTerms);
+        }
+
+        private List<string> getSearchTerms()
         {
             List<string> includeTerms = new List<string>();
             string[] searchWords = comboBoxSearchTerms.Text.Split();
@@ -86,7 +100,23 @@ namespace Assign3Mockup
             return includeTerms;
         }
 
+        private List<string> getIncludeTerms()
+        {
+            if(radioButtonInclude.Checked)
+            {
+                return getSearchTerms();
+            }
+            else return null;
+        }
 
+           private List<string> getExcludeTerms()
+        {
+            if(radioButtonExclude.Checked)
+            {
+                return getSearchTerms();
+            }
+            else return null;
+        }
 
         private void listBoxNewsgroups_DoubleClick(object sender, EventArgs e)
         {
